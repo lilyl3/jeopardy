@@ -23,6 +23,8 @@ export default async function Board({ searchParams }: BoardPageProps) {
       return <Card key={`${column}-${pointValue}`} category={column.toString()} pointValue={pointValue.toString()}></Card>
     });
   });
+
+  // TODO: Display categories
   
   return (<>
     <div className="grid gap-4 p-4" style={{ gridTemplateColumns: `repeat(${colCount}, minmax(0, 1fr))` }}>
