@@ -1,6 +1,7 @@
 "use server";
 import { redirect } from "next/navigation";
 import { RequestProps } from "../api/data/route";
+import { baseUrl } from "../utils/dataTypes";
 
 export async function createQuestions(prevState: any, formData: FormData) {
     const rows = formData.get("rows");
@@ -12,8 +13,6 @@ export async function createQuestions(prevState: any, formData: FormData) {
     if (categories.length != Number(columns)) {
       return {error: "Missing or too many categories specified"};
     }
-
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
     const props : RequestProps = {
       action: "generate",

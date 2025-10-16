@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { redirect } from "next/navigation";
-import { BoardProps, RequestProps } from "@/app/api/data/route";
+import { fetchBoardProps } from "@/app/utils/fetch";
 
 export type QAProps = {
     params: {
@@ -14,18 +14,8 @@ export default function ToggleQA({ params }: QAProps) {
     const { question, answer } = params;
     const [showAnswer, setShowAnswer] = useState(false);
 
-    const RequestProps : RequestProps = {
-        action: "board",
-      };  
-
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
     const goToBoard = async () => {
-        const res = await fetch(`${baseUrl}/api/data`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(RequestProps),
-        }); 
-        const boardProps : BoardProps = await res.json();
+        const boardProps = await fetchBoardProps();
         redirect(`/board?rows=${boardProps.rows}&columns=${boardProps.columns}`);
     };
 

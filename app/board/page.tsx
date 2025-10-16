@@ -1,15 +1,9 @@
 import Card from "../components/Card";
+import { Category } from "../components/Card";
+import { fetchBoardProps } from "../utils/fetch";
 
-type BoardPageProps = {
-  searchParams: Promise<{
-    rows?: string;      // URL query params are always strings
-    columns?: string;
-  }>;
-};
-
-export default async function Board({ searchParams }: BoardPageProps) {
-  const { rows, columns } = await searchParams;
-
+export default async function Board() {
+  const { rows, columns, categories } = await fetchBoardProps();
   const rowCount = Number(rows) || 5;
   const colCount = Number(columns) || 5;
 
@@ -21,7 +15,9 @@ export default async function Board({ searchParams }: BoardPageProps) {
     });
   });
 
-  // TODO: Display categories
+  const categoryCards = categories.map((c) => {
+    return <Category key={c} name={c} />;
+  });
   
   return (
     <div className="flex justify-center">
@@ -29,6 +25,7 @@ export default async function Board({ searchParams }: BoardPageProps) {
         className="grid gap-4 p-4"
         style={{ gridTemplateColumns: `repeat(${colCount}, minmax(0, 1fr))` }}
       >
+        {categoryCards}
         {cards}
       </div>
     </div>

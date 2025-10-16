@@ -19,4 +19,17 @@ export default function Card({ category, pointValue }: CardProps) {
       </h2>
     </div>
   )
-}  
+}
+
+export function Category({name} : {name: string}) {
+  return (
+    <div
+      className="text-white bg-blue-600 border border-gray-400 rounded-lg p-2 m-2 w-[175px] 
+      flex flex-col items-center text-center gap-2"
+    >
+      <h2 className="text-xl font-semibold m-0 p-0">
+        {name}
+      </h2>
+    </div>
+  )
+}

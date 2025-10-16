@@ -8,7 +8,7 @@ type QuestionPageProps = {
   }>;
 };
 
-export default async function Question({ params }: QuestionPageProps) {
+export default async function ToggleCard({ params }: QuestionPageProps) {
   const { category, pointValue } = await params;
 
   const getProps : RequestProps = {

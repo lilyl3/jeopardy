@@ -12,6 +12,7 @@ export type JeopardyData = Record<category, Record<pointValue, JeopardyEntry>>;
 export type BoardProps = {
     rows: string
     columns: string
+    categories: string[]
 };
 
 let storedData: JeopardyData | null = null;
@@ -36,9 +37,17 @@ export async function POST(request: Request) {
     boardProps = {
       rows: props.rows,
       columns: props.columns,
+      categories: props.categories
     };
     storedData = generatePlaceholderData(boardProps);
     return NextResponse.json({ message: 'Data saved' });
+  }
+
+  if (props.action === "all") {
+    if (!storedData) {
+      return NextResponse.json({ error: 'Missing rows, columns, and/or categories' }, { status: 404 });
+    }
+    return NextResponse.json(storedData);
   }
 
   if (props.action === 'card') {
