@@ -16,7 +16,7 @@ export default function Home() {
       </label>
 
       <label> Columns:
-        <input name="columns" type="number" min={1} defaultValue={2} required className="border p-2 rounded w-full"/>
+        <input name="columns" type="number" min={1} defaultValue={3} required className="border p-2 rounded w-full"/>
       </label>
 
       <label>
@@ -31,7 +31,7 @@ export default function Home() {
       {state["error"] ? <p className="text-red-500">{state["error"]}</p> : null}
 
       <button type="submit" disabled={isPending} className="bg-blue-200 text-black py-2 rounded hover:bg-blue-300">
-        Generate Questions
+        Create Questions
       </button>
     </form>
   );

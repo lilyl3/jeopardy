@@ -1,20 +1,33 @@
-import { getCardData } from "../../../data/JeopardyData";
+import { RequestProps, JeopardyEntry} from "@/app/api/data/route";
 import ToggleQA from "./qa"
 
 type QuestionPageProps = {
   params: Promise<{
-    category: string;
-    pointValue: string;
+    category: string
+    pointValue: string
   }>;
 };
 
 export default async function Question({ params }: QuestionPageProps) {
   const { category, pointValue } = await params;
 
-  const questionAnswer = getCardData(decodeURIComponent(category), pointValue);
-  const qaParams = {
+  const getProps : RequestProps = {
+    action: "card",
+    category: decodeURIComponent(category),
+    pointValue: decodeURIComponent(pointValue)
+  };  
+
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+  const res = await fetch(`${baseUrl}/api/data`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(getProps),
+  });
+  const questionAnswer : JeopardyEntry = await res.json();
+  
+  const toggleParams = {
       question: questionAnswer?.question ?? "Question not found.",
-      answer: questionAnswer?.answer ?? "Answer not found."
+      answer: questionAnswer?.answer ?? "Answer not found.",
   };
   
   return (
@@ -27,7 +40,7 @@ export default async function Question({ params }: QuestionPageProps) {
           <h2 className="text-2xl font-semibold text-gray-700 mb-6">
             For ${pointValue}
           </h2>
-          <ToggleQA params={qaParams} />
+          <ToggleQA params={toggleParams} />
         </div>
       </div>
     </main>

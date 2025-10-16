@@ -1,5 +1,4 @@
 import Card from "../components/Card";
-import { getJeopardyData } from "../data/JeopardyData";
 
 type BoardPageProps = {
   searchParams: Promise<{
@@ -13,8 +12,6 @@ export default async function Board({ searchParams }: BoardPageProps) {
 
   const rowCount = Number(rows) || 5;
   const colCount = Number(columns) || 5;
-
-  const data = getJeopardyData(colCount, rowCount);
 
   const range = (n : number) => Array.from({ length: n }, (_, i) => i + 1);
   const cards = range(rowCount).flatMap((row) => {
