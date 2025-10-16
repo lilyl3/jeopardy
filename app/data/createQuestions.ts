@@ -1,7 +1,7 @@
 "use server";
 import { redirect } from "next/navigation";
 
-export async function createBoard(prevState: any, formData: FormData) {
+export async function createQuestions(prevState: any, formData: FormData) {
     const rows = formData.get("rows");
     const columns = formData.get("columns");
     const rawCategories = formData.get("categories") as string;

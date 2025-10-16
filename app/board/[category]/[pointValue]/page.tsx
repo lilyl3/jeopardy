@@ -1,3 +1,6 @@
+import { getCardData } from "../../../data/JeopardyData";
+import ToggleQA from "./qa"
+
 type QuestionPageProps = {
   params: Promise<{
     category: string;
@@ -7,5 +10,26 @@ type QuestionPageProps = {
 
 export default async function Question({ params }: QuestionPageProps) {
   const { category, pointValue } = await params;
-  return <h1>Question {pointValue} in category {category}</h1>;
+
+  const questionAnswer = getCardData(decodeURIComponent(category), pointValue);
+  const qaParams = {
+      question: questionAnswer?.question ?? "Question not found.",
+      answer: questionAnswer?.answer ?? "Answer not found."
+  };
+  
+  return (
+    <main className="flex p-10 justify-center">
+      <div className="w-full max-w-2xl bg-white rounded-xl shadow-lg p-10 mx-4 max-h-[calc(100vh-2rem)] overflow-auto flex flex-col">
+        <div>
+          <h1 className="text-3xl font-bold text-blue-800 mb-3">
+            Category: {decodeURIComponent(category)}
+          </h1>
+          <h2 className="text-2xl font-semibold text-gray-700 mb-6">
+            For ${pointValue}
+          </h2>
+          <ToggleQA params={qaParams} />
+        </div>
+      </div>
+    </main>
+  );
 }

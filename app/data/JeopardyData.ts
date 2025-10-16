@@ -1,6 +1,6 @@
 export type JeopardyEntry = {
     question: string;
-    answer: number;
+    answer: string;
     category: string
 };
 
@@ -22,7 +22,7 @@ const generateJeopardyData = (
             const pointValue = (i * 100).toString();
             data[categoryId][pointValue] = {
                 question: `What is ${categoryId} × ${i}?`,
-                answer: categoryId * i,
+                answer: `${categoryId * i}`,
                 category: categoryName,
             };
         }

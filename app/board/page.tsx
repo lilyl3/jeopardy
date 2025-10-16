@@ -26,9 +26,14 @@ export default async function Board({ searchParams }: BoardPageProps) {
 
   // TODO: Display categories
   
-  return (<>
-    <div className="grid gap-4 p-4" style={{ gridTemplateColumns: `repeat(${colCount}, minmax(0, 1fr))` }}>
+  return (
+    <div className="flex justify-center">
+      <div
+        className="grid gap-4 p-4"
+        style={{ gridTemplateColumns: `repeat(${colCount}, minmax(0, 1fr))` }}
+      >
         {cards}
+      </div>
     </div>
-  </>);
+  );
 }
