@@ -27,6 +27,8 @@ export type RequestProps = {
     rows? : string
     columns? : string
     categories? : string[]
+    question? : string
+    answer? : string
 }
 
 export async function POST(request: Request) {
@@ -72,6 +74,15 @@ export async function POST(request: Request) {
     }
     return NextResponse.json(boardProps);
   }
+
+  if (props.action === 'update') {
+    if (!storedData || !props.category || !props.pointValue || !props.question || !props.answer) {
+      return NextResponse.json({ error: 'Missing parameters needed to update card' }, { status: 404 });
+    }
+    storedData[props.category][props.pointValue].question = props.question;
+    storedData[props.category][props.pointValue].answer = props.answer;
+    return NextResponse.json({message: "Updated"});
+  } 
 
   return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
 }

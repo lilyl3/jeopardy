@@ -3,6 +3,7 @@
 import { useEffect, useState, Suspense } from "react"
 import { fetchCategory } from "../utils/fetch";
 import { CategoryData } from "../api/data/route";
+import { useRouter } from "next/navigation"; 
 import ListQA from "./listqa";
 
 type ListCategoryProps = {
@@ -12,6 +13,7 @@ type ListCategoryProps = {
   export default function ListCategory({ categories }: ListCategoryProps) {
     const [category, setCategory] = useState<string | null>(null);
     const [categoryQAs, setCategoryQAs] = useState<CategoryData | null>(null);
+    const router = useRouter();
 
     async function fetchData() {
         if (!category) return;
@@ -27,6 +29,13 @@ type ListCategoryProps = {
 
     return (
       <div className="flex flex-col gap-2 w-full max-w-sm mx-auto my-4">
+        <button
+            onClick={() => router.push("/board")}
+            className="bg-orange-300 text-md font-semibold text-black px-4 py-4 rounded-md hover:bg-orange-400 transition-colors"
+        >
+            Continue to board
+        </button>
+
         <label
           htmlFor="category-select"
           className="text-sm font-semibold text-gray-700"

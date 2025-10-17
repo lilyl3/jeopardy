@@ -29,3 +29,22 @@ export async function fetchCategory(category : string) {
     const categoryQA : CategoryData = await res.json();
     return categoryQA;
 }
+
+export async function updateCard(category : string, pointValue: string, question: string, answer: string) {
+    const requestProps : RequestProps = {
+        action: "update",
+        category: category,
+        pointValue: pointValue,
+        question: question, 
+        answer: answer
+    };  
+
+    const res = await fetch(`${baseUrl}/api/data`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestProps),
+    }); 
+
+    const msg = await res.json();
+    return msg.message;
+}
