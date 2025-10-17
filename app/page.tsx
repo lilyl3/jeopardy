@@ -24,6 +24,7 @@ export default function Home() {
         <textarea
           name="categories"
           placeholder="One value per line"
+          defaultValue={"cat\nhat\nmat"}
           rows={5}
           className="border p-2 rounded w-full"
         />

@@ -1,14 +1,16 @@
 import { NextResponse } from 'next/server';
 
-type category = string;
-type pointValue = string;
+type Category = string;
+type PointValue = string;
 
 export type JeopardyEntry = {
     question: string;
     answer: string;
     category: string
 };
-export type JeopardyData = Record<category, Record<pointValue, JeopardyEntry>>;
+
+export type CategoryData = Record<PointValue, JeopardyEntry>;
+export type JeopardyData = Record<Category, CategoryData>;
 export type BoardProps = {
     rows: string
     columns: string
@@ -57,6 +59,13 @@ export async function POST(request: Request) {
     return NextResponse.json(storedData[props.category]?.[props.pointValue] ?? null);
   }
 
+  if (props.action === 'category') {
+    if (!storedData || !props.category) {
+      return NextResponse.json({ error: `Category ${props.category} is not found`}, { status: 404 });
+    }
+    return NextResponse.json(storedData[props.category]);
+  }
+
   if (props.action === 'board') {
     if (!boardProps) {
       return NextResponse.json({ error: 'Board props not found' }, { status: 404 });
@@ -68,22 +77,25 @@ export async function POST(request: Request) {
 }
 
 function generatePlaceholderData(props: BoardProps): JeopardyData {
-  const { rows, columns } = props;
+  const { rows, columns, categories } = props;
   const data: JeopardyData = {};
 
-  for (let categoryId = 1; categoryId <= Number(columns); categoryId++) {
-    const categoryName = `${categoryId} x ?`;
-    data[categoryId.toString()] = {};
+  categories.forEach((categoryName) => {
+    const categoryData: CategoryData = {};
 
     for (let i = 1; i <= Number(rows); i++) {
       const pointValue = (i * 100).toString();
-      data[categoryId][pointValue] = {
-        question: `What is ${categoryId} × ${i}?`,
-        answer: `${categoryId * i}`,
+
+      categoryData[pointValue] = {
+        question: `What is something in ${categoryName} worth ${pointValue}?`,
+        answer: `Answer for ${categoryName} ${pointValue}`,
         category: categoryName,
       };
     }
-  }
+
+    data[categoryName] = categoryData;
+  });
 
   return data;
 }
+
