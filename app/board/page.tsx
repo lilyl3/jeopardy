@@ -10,8 +10,8 @@ export default async function Board() {
   const range = (n : number) => Array.from({ length: n }, (_, i) => i + 1);
   const cards = range(rowCount).flatMap((row) => {
     const pointValue = row * 100;
-    return range(colCount).map((column) => {
-      return <Card key={`${column}-${pointValue}`} category={column.toString()} pointValue={pointValue.toString()}></Card>
+    return categories.map((category) => {
+      return <Card key={`${category}-${pointValue}`} category={category} pointValue={pointValue.toString()}></Card>
     });
   });
 

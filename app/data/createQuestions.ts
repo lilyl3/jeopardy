@@ -27,7 +27,7 @@ export async function createQuestions(prevState: any, formData: FormData) {
       body: JSON.stringify(props),
     });
   
-    redirect(`/board?rows=${rows}&columns=${columns}`);
+    redirect(`/viewQuestions`);
 
     return {error: null};
 }

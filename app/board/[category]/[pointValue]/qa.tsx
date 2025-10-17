@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import { redirect } from "next/navigation";
-import { fetchBoardProps } from "@/app/utils/fetch";
 
 export type QAProps = {
     params: {
@@ -15,8 +14,7 @@ export default function ToggleQA({ params }: QAProps) {
     const [showAnswer, setShowAnswer] = useState(false);
 
     const goToBoard = async () => {
-        const boardProps = await fetchBoardProps();
-        redirect(`/board?rows=${boardProps.rows}&columns=${boardProps.columns}`);
+        redirect(`/board`);
     };
 
     return (
@@ -30,7 +28,7 @@ export default function ToggleQA({ params }: QAProps) {
         >
             {showAnswer ? "Show Question" : "Show Answer"}
         </button>
-        <button className="bg-orange-200 hover:bg-blue-300 font-semibold py-3 px-8 rounded transition"
+        <button className="bg-orange-200 hover:bg-orange-300 font-semibold py-3 px-8 rounded transition"
         onClick={() => goToBoard()}>
             Home
         </button>
