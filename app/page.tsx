@@ -1,14 +1,37 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { createQuestions } from "./data/createQuestions";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
 
+  const router = useRouter();
   const initialState = {
+    success: false,
     error: null
   };
+
   const [state, formAction, isPending] = useActionState(createQuestions, initialState);
+  useEffect(() => {
+    if (state.success) {
+      router.push('/viewQuestions');
+    }
+  }, [state.success])
+
+  if (state.success) {
+    return <></>
+  }
+
+  if (isPending) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-solid"></div>
+        <span className="ml-4 text-lg text-blue-700">Creating questions...</span>
+      </div>
+    );
+  }
+
   return (
     <form action={formAction} className="flex flex-col gap-4 max-w-xs mx-auto mt-10 bg-white p-10 rounded-xl shadow-lg">
       <label> Rows:

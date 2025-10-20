@@ -1,6 +1,22 @@
 import { BoardProps, RequestProps, CategoryData } from "../api/data/route";
 import { baseUrl } from "./dataTypes";
 
+export async function generateData(rows: string, columns: string, categories: string[]) {
+    const props: RequestProps = {
+        action: "generate",
+        rows: rows,
+        columns: columns,
+        categories: categories,
+    };
+
+    const res = await fetch(`${baseUrl}/api/data`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(props),
+    });
+    return res;
+}
+
 export async function fetchBoardProps() {
     const requestProps : RequestProps = {
         action: "board",
@@ -10,6 +26,7 @@ export async function fetchBoardProps() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(requestProps),
+        cache: "no-store",
     }); 
     const boardProps : BoardProps = await res.json();
     return boardProps;
